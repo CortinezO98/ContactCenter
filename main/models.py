@@ -12,7 +12,9 @@ class Cliente(models.Model):
     nombres = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=100)
     correo = models.CharField(max_length=100)
-    celular = models.IntegerField()    
+    celular = models.IntegerField()
+    def __str__(self):
+        return "{} - {} {}".format(self.documento, self.nombres, self.apellidos)
 
 class TipoSolicitud(models.Model):
     nombre = models.CharField(max_length=100)
