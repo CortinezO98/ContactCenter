@@ -26,7 +26,10 @@ class Solicitud(models.Model):
     llamaEnNombrePropio = models.BooleanField()
     seAgendaCita = models.BooleanField()
     quedaCitaEnEspera = models.BooleanField()
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True)
     agente = models.ForeignKey(Agente, on_delete=models.CASCADE)
+    def __str__(self):
+        return "{} | llamaEnNombrePropio:{} | seAgendaCita:{} | quedaCitaEnEspera:{} | {}".format(self.tipoSolicitud.nombre, self.llamaEnNombrePropio, self.seAgendaCita, self.quedaCitaEnEspera, self.agente.usuario)
 
 class Especialidad(models.Model):
     nombre = models.CharField(max_length=100)

@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Detalles de la solicitud{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-10">
+                <div class="card">
+                    <div class="card-header text-center">
+                        Detalles de la solicitud
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-responsive-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th>Cliente:</th>
+                                    <td>{{solicitud.cliente.nombres}} {{solicitud.cliente.apellidos}} | C.C. {{solicitud.cliente.documento}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo de solicitud</th>
+                                    <td>{{solicitud.tipoSolicitud.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <th>¿Llama en nombre propio?</th>
+                                    <td>{% if solicitud.llamaEnNombrePropio %}Si{% else %}No{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th>¿Se agenda cita?</th>
+                                    <td>{% if solicitud.seAgendaCita %}Si{% else %}No{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th>¿Queda cita en espera?</th>
+                                    <td>{% if solicitud.quedaCitaEnEspera %}Si{% else %}No{% endif %}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#agendarCitaModal">
+                                Agendar cita
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="agendarCitaModal" tabindex="-1" aria-labelledby="agendarCitaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="agendarCitaModalLabel">Agendar cita</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="GET" action="{% url 'main:agendarCita' %}">
+                        <input type="number" class="d-none" name="documentoCliente" id="documentoCliente" value="{{solicitud.cliente.documento}}">
+
+                        <div class="my-3">
+                            <label for="fecha">Seleccione la fecha de la cita</label>
+                            <input id="fecha" class="form-control" name="fecha" type="date" min="{{ fecha_actual }}" required/>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
