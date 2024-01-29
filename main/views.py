@@ -39,7 +39,15 @@ def index(request):
 def vistaSolicitud(request, id):
     solicitud = Solicitud.objects.filter(id=id).first()
     fecha_actual = datetime.now().strftime('%Y-%m-%d')
-    return render(request, 'vistaSolicitud.html', {"solicitud":solicitud, 'fecha_actual': fecha_actual})
+    especialidades = Especialidad.objects.all()
+    sedes = Sede.objects.all()
+    context =  {
+        "solicitud":solicitud, 
+        "fecha_actual": fecha_actual,
+        "especialidades":especialidades,
+        "sedes":sedes
+    }
+    return render(request, 'vistaSolicitud.html', context)
 
 @login_required
 def crearCliente(request):
@@ -78,11 +86,31 @@ def crearSolicitud(request):
 
 @login_required
 def agendarCita(request):
-    if request.method == 'GET' and request.GET.get('documentoCliente') and request.GET.get('fecha'):
-        documentoCliente = request.GET.get('documentoCliente')
-        fechaStr = request.GET.get('fecha')
-        fecha = datetime.strptime(fechaStr, '%Y-%m-%d').date()
-        return render(request, 'agendarCita.html', {"fecha":fecha})
+    if request.method == 'GET' and request.GET.get('cliente') and request.GET.get('fecha') and request.GET.get('especialidad') and request.GET.get('sede'):
+        fecha = datetime.strptime(request.GET.get('fecha'), '%Y-%m-%d').date()
+        citas = Cita.objects.filter(fecha__date=fecha, especialidad__id=request.GET.get('especialidad'), sede__id=request.GET.get('sede'), disponible=True)
+        # especialidades = Especialidad.objects.all()
+        # sedes = Sede.objects.all()
+        context = {
+            "fecha":fecha, 
+            "citas":citas,
+            # "especialidades":especialidades,
+            # "sedes":sedes
+        }
+        return render(request, 'agendarCita.html', context)
+
+    if request.method == 'POST':
+        print( request.POST)
+        cita = Cita.objects.filter(id=request.POST.get('cita')).first()
+        cita.disponible = False
+        cita.save()
+        citaCliente = CitaCliente(
+            cliente =  Cliente.objects.filter(documento=request.POST.get('documentoCliente')).first(),
+            cita =  cita,
+            agente =  Agente.objects.filter(usuario=request.user).first()
+        )
+        citaCliente.save()
+        messages.success(request, 'La cita se agendó correctamente')
 
     return redirect("main:index")
 

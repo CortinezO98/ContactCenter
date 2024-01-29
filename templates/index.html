@@ -112,7 +112,7 @@
                         <div class="mb-3">
                             <label for="tipoSolicitudId" class="form-label">Tipo de solicitud</label>
                             <select class="form-select" id="tipoSolicitudId" name="tipoSolicitudId" required>
-                                <option selected disabled>Seleccione una opción</option>
+                                <option value="" selected disabled>Seleccione una opción</option>
                                 {% for tipoSolicitud in tipoSolicitudes %}
                                 <option value="{{tipoSolicitud.id}}">{{tipoSolicitud.nombre}}</option>
                                 {% endfor %}

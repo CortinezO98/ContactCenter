@@ -13,7 +13,35 @@
                     <div class="card-body">
                         <h4>{{fecha|date:'l d \d\e F Y'}}</h4>
                         {% if citas %}
-                        
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Hora</th>
+                                        <th scope="col">Medico</th>
+                                        <th scope="col">Especialidad</th>
+                                        <th scope="col">Sede</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cita in citas %}
+                                    <tr>
+                                        <td>{{cita.fecha|date:'h:i A'}}</td>
+                                        <td>{{cita.medico.nombre}}</td>
+                                        <td>{{cita.especialidad.nombre}}</td>
+                                        <td>{{cita.sede.nombre}}</td>
+                                        <td>
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input type="number" name="documentoCliente" value="{{request.GET.cliente}}" class="d-none" required>
+                                                <input type="number" name="cita" value="{{cita.id}}" class="d-none" required>
+                                                <button type="submit" class="btn btn-sm btn-primary">Agendar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         {% else %}
                             No se encontraron citas disponibles para esta fecha
                         {% endif %}

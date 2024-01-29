@@ -56,7 +56,27 @@
                 </div>
                 <div class="modal-body">
                     <form method="GET" action="{% url 'main:agendarCita' %}">
-                        <input type="number" class="d-none" name="documentoCliente" id="documentoCliente" value="{{solicitud.cliente.documento}}">
+                        <input type="number" class="d-none" name="cliente" id="cliente" value="{{solicitud.cliente.documento}}">
+
+                        <div class="mb-3">
+                            <label for="especialidad" class="form-label">Especialidad</label>
+                            <select class="form-select" id="especialidad" name="especialidad" required>
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                {% for especialidad in especialidades %}
+                                    <option value="{{especialidad.id}}">{{especialidad.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sede" class="form-label">Sede</label>
+                            <select class="form-select" id="sede" name="sede" required>
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                {% for sede in sedes %}
+                                    <option value="{{sede.id}}">{{sede.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
                         <div class="my-3">
                             <label for="fecha">Seleccione la fecha de la cita</label>
