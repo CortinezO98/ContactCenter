@@ -5,7 +5,7 @@
 {% block main %}
     <div class="container">
         <div class="row">
-            <div class="col col-lg-10">
+            <div class="col offset-lg-1 col-lg-10">
                 <div class="card">
                     <div class="card-header text-center">
                         Modulo consulta cliente
@@ -44,6 +44,30 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                {% if cliente.citacliente_set.all %}
+                                    <h5 class="text-center mt-4">Citas agendadas</h5>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Medico</th>
+                                            <th scope="col">Especialidad</th>
+                                            <th scope="col">Sede</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for citacliente in cliente.citacliente_set.all %}
+                                                <tr>
+                                                    <td>{{citacliente.cita.fecha|date:'d/m/Y h:i A'}}</td>
+                                                    <td>{{citacliente.cita.medico.nombre}}</td>
+                                                    <td>{{citacliente.cita.especialidad.nombre}}</td>
+                                                    <td>{{citacliente.cita.sede.nombre}}</td>                                                    
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}    
+
                             {% else %}
                                 No se encontraron coincidencia para "{{request.GET.documentoCliente}}" 
                                 <div class="text-center">

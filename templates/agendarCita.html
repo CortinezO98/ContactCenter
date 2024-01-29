@@ -5,12 +5,15 @@
 {% block main %}
     <div class="container">
         <div class="row">
-            <div class="col col-lg-10">
+            <div class="col offset-lg-1 col-lg-10">
                 <div class="card">
                     <div class="card-header text-center">
                         Agendar cita
                     </div>
                     <div class="card-body">
+                        <div class="float-end">
+                            <b>Cliente:</b> {{cliente.nombres}} {{cliente.apellidos}}
+                        </div>
                         <h4>{{fecha|date:'l d \d\e F Y'}}</h4>
                         {% if citas %}
                             <table class="table">

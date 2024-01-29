@@ -59,3 +59,5 @@ class CitaCliente(models.Model):
     agente = models.ForeignKey(Agente, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE)
+    def __str__(self):
+        return "{} | {} | {}".format(self.cliente.nombres, self.cita, self.agente.usuario)

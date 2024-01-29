@@ -89,28 +89,27 @@ def agendarCita(request):
     if request.method == 'GET' and request.GET.get('cliente') and request.GET.get('fecha') and request.GET.get('especialidad') and request.GET.get('sede'):
         fecha = datetime.strptime(request.GET.get('fecha'), '%Y-%m-%d').date()
         citas = Cita.objects.filter(fecha__date=fecha, especialidad__id=request.GET.get('especialidad'), sede__id=request.GET.get('sede'), disponible=True)
-        # especialidades = Especialidad.objects.all()
-        # sedes = Sede.objects.all()
+        cliente = Cliente.objects.filter(documento=request.GET.get('cliente')).first()
         context = {
             "fecha":fecha, 
             "citas":citas,
-            # "especialidades":especialidades,
-            # "sedes":sedes
+            "cliente":cliente
         }
         return render(request, 'agendarCita.html', context)
 
     if request.method == 'POST':
-        print( request.POST)
+        cliente = Cliente.objects.filter(documento=request.POST.get('documentoCliente')).first()
         cita = Cita.objects.filter(id=request.POST.get('cita')).first()
         cita.disponible = False
         cita.save()
         citaCliente = CitaCliente(
-            cliente =  Cliente.objects.filter(documento=request.POST.get('documentoCliente')).first(),
+            cliente =  cliente,
             cita =  cita,
             agente =  Agente.objects.filter(usuario=request.user).first()
         )
         citaCliente.save()
         messages.success(request, 'La cita se agendó correctamente')
+        return redirect(f"/?documentoCliente={cliente.documento}")
 
     return redirect("main:index")
 
