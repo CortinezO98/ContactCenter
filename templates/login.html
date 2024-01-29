@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col offset-lg-4 col-lg-4 pt-4">
+                <div class="card my-4">
+                    <div class="card-header text-center">
+                        Inicio de sesión
+                    </div>
+                    <div class="card-body shadow">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de usuario</label>
+                                <input type="text" class="form-control" name="username" id="username" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="text-center py-2">
+                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
