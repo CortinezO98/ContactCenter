@@ -20,52 +20,56 @@
                         
                         {% if request.GET.documentoCliente %}
                             {% if cliente %}
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Cedula</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Correo</th>
-                                        <th scope="col">Celular</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{{cliente.documento}}</td>
-                                            <td>{{cliente.nombres}} {{cliente.apellidos}}</td>
-                                            <td>{{cliente.correo}}</td>
-                                            <td>{{cliente.celular}}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#solicitudModal">
-                                                    Gestionar solicitud
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {% if cliente.citacliente_set.all %}
-                                    <h5 class="text-center mt-4">Citas agendadas</h5>
+                                <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col">Medico</th>
-                                            <th scope="col">Especialidad</th>
-                                            <th scope="col">Sede</th>
+                                            <th scope="col">Cedula</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Correo</th>
+                                            <th scope="col">Celular</th>
+                                            <th scope="col"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for citacliente in cliente.citacliente_set.all %}
-                                                <tr>
-                                                    <td>{{citacliente.cita.fecha|date:'d/m/Y h:i A'}}</td>
-                                                    <td>{{citacliente.cita.medico.nombre}}</td>
-                                                    <td>{{citacliente.cita.especialidad.nombre}}</td>
-                                                    <td>{{citacliente.cita.sede.nombre}}</td>                                                    
-                                                </tr>
-                                            {% endfor %}
+                                            <tr>
+                                                <td>{{cliente.documento}}</td>
+                                                <td>{{cliente.nombres}} {{cliente.apellidos}}</td>
+                                                <td>{{cliente.correo}}</td>
+                                                <td>{{cliente.celular}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#solicitudModal">
+                                                        Gestionar solicitud
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                {% if cliente.citacliente_set.all %}
+                                    <h5 class="text-center mt-4">Citas agendadas</h5>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Fecha</th>
+                                                <th scope="col">Medico</th>
+                                                <th scope="col">Especialidad</th>
+                                                <th scope="col">Sede</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for citacliente in cliente.citacliente_set.all %}
+                                                    <tr>
+                                                        <td>{{citacliente.cita.fecha|date:'d/m/Y h:i A'}}</td>
+                                                        <td>{{citacliente.cita.medico.nombre}}</td>
+                                                        <td>{{citacliente.cita.especialidad.nombre}}</td>
+                                                        <td>{{citacliente.cita.sede.nombre}}</td>                                                    
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 {% endif %}    
 
                             {% else %}
